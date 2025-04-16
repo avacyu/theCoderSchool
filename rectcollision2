@@ -1,0 +1,56 @@
+import pygame
+
+pygame.init()
+FPS=60
+WIDTH,HEIGHT= 800,800
+WHITE=(255,255,255)
+CYAN = (16,255,247)
+PINK = (249,176,232)
+clock= pygame.time.Clock()
+pygame.display.set_caption("game")
+screen= pygame.display.set_mode((WIDTH,HEIGHT))
+
+player_rect = pygame.Rect(100,100,100,100)
+block_rect = pygame.Rect(400,400,300,100)
+
+
+game= True
+
+while game:
+  for event in pygame.event.get():
+    if event.type == pygame.QUIT:
+      game= False
+
+
+  keys= pygame.key.get_pressed()
+  if keys[pygame.K_UP] == True:
+    player_rect.y -=5
+    if player_rect.colliderect(block_rect):
+        if player_rect.bottom > block_rect.top:
+          player_rect.top= block_rect.bottom
+  if keys[pygame.K_DOWN] == True:
+    player_rect.y +=5
+    if player_rect.colliderect(block_rect):
+      if player_rect.top < block_rect.bottom:
+        player_rect.bottom = block_rect.top
+  if keys[pygame.K_LEFT] == True:
+    player_rect.x -=5
+    if player_rect.colliderect(block_rect):
+      if player_rect.right > block_rect.left:
+        player_rect.left = block_rect.right
+  if keys[pygame.K_RIGHT] == True:
+    player_rect.x +=5
+    if player_rect.colliderect(block_rect):
+      if player_rect.left < block_rect.right:
+        player_rect.right = block_rect.left
+
+  
+  
+  screen.fill(WHITE)
+
+  pygame.draw.rect(screen, CYAN, player_rect)
+  pygame.draw.rect(screen, PINK, block_rect)
+  
+  pygame.display.update()
+  clock.tick(FPS)
+pygame.quit()
